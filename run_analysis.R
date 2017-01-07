@@ -17,7 +17,7 @@ setwd("C:/Users/jzimmerman/Documents/JHU Cert/Getcleandata/UCI HAR Dataset/")
 features <- read.table('./features.txt',header=FALSE)
 activityType = read.table('./activity_labels.txt',header=FALSE)
 
-# Get Training Data
+#  Get Training Data
 trainy <- read.table('./train/y_train.txt',header=FALSE)
 trainx <- read.table('./train/X_train.txt',header=FALSE)
 trainsubj <- read.table('./train/subject_train.txt',header=FALSE)
@@ -28,7 +28,7 @@ colnames(trainx)        = features[,2];
 colnames(trainy)        = "activity";
 colnames(trainsubj)     = "subject";
 
-# Get test Data
+#  Get test Data
 
 testy <- read.table('./test/y_test.txt',header=FALSE)
 testx <- read.table('./test/X_test.txt',header=FALSE)
@@ -48,21 +48,19 @@ joinX<-rbind(trainx,testx)
 
 subjectsfull<-rbind(trainsubj,testsubj)
 
-###### 2. Reduce the data set to only standard deviations and mean 
+####### 2. Reduce the data set to only standard deviations and mean 
 
-featuresnames<-colnames(joinX)
+mean_STD_cols <- grep("-(mean|std)\\(\\)", features[, 2])
 
-mean_and_std_features <- grep("-(mean|std)\\(\\)", features[, 2])
+onlystdandmeandata<-joinX[,mean_STD_cols]
 
-onlystdandmeandata<-joinX[,mean_and_std_features]
-
-###### 3. Uses descriptive activity names to name the activities in the data set
+####### 3. Uses descriptive activity names to name the activities in the data set
 
 ynames <- merge(joinY,activityType)
 
-###### 4. Appropriately label the data set with descriptive variable names
+####### 4. Appropriately label the data set with descriptive variable names
 
-finalfulldata<-cbind(ynames,subjectsfull,onlystdandmeandata)
+finalfulldata<-cbind(ynames,subjectsfull,onlystdandmeandata) ##labels already added 
 
 rm(list= ls()[!(ls() %in% c('finalfulldata'))])
 
@@ -70,4 +68,3 @@ rm(list= ls()[!(ls() %in% c('finalfulldata'))])
 library(plyr)
 
 Means <- ddply(finalfulldata, .(subject, TypeActivity), function(x) colMeans(x[, 3:69]))
-
