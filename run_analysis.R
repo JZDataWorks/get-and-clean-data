@@ -66,3 +66,5 @@ rm(list= ls()[!(ls() %in% c('finalfulldata'))])
 library(plyr)
 
 Means <- ddply(finalfulldata, .(subject, TypeActivity), function(x) colMeans(x[, 3:69]))
+  
+write.table(Means, "Means.txt", row.name=FALSE)
