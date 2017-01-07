@@ -23,10 +23,10 @@ trainx <- read.table('./train/X_train.txt',header=FALSE)
 trainsubj <- read.table('./train/subject_train.txt',header=FALSE)
 
 # Column names for training and merging 
-colnames(activityType)  = c('activity','TypeActivity');
-colnames(trainx)        = features[,2]; 
-colnames(trainy)        = "activity";
-colnames(trainsubj)     = "subject";
+colnames(activityType)<-c('activity','TypeActivity')
+colnames(trainx)<-features[,2]
+colnames(trainy)<-"activity"
+colnames(trainsubj)<-"subject"
 
 #  Get test Data
 
@@ -35,17 +35,15 @@ testx <- read.table('./test/X_test.txt',header=FALSE)
 testsubj <- read.table('./test/subject_test.txt',header=FALSE)
 
 # Column names for test and merging 
-colnames(testx)        = features[,2]; 
-colnames(testy)        = "activity";
-colnames(testsubj)     = "subject";
+colnames(testx)<-features[,2]
+colnames(testy)<-"activity"
+colnames(testsubj)<-"subject"
 
 
-#full Join of Test and Train
+#full Join of Test and Train. Not join all sets at this time 
 
 joinY<-rbind(trainy,testy)
-
 joinX<-rbind(trainx,testx)
-
 subjectsfull<-rbind(trainsubj,testsubj)
 
 ####### 2. Reduce the data set to only standard deviations and mean 
